@@ -1,0 +1,154 @@
+nav{
+	padding: 0 20px 0 20px;
+}
+a{
+	color: #4d4d33;
+}
+.letra-marron{
+	color: #4d4d33;	
+}
+a:hover{
+	color: #352813;
+}
+.menu{
+	
+	position:absolute;
+	width: 280px;
+	top: 73px;
+	left: 40px;
+}
+.menu>ul>.submenu:hover{
+	background: #FCF8E3;
+}
+.v-center{
+	margin-top: 25px;
+}
+.lista{
+	margin-top: 5px;
+	width: 1150px;
+	margin: 20px 0 0 420px;
+}
+.titulo{
+	background: #e0e0d1;
+	font-size: 1.4em;
+}
+.categoria{
+	font-size: 1.4em;
+
+}
+.icon{
+	font-size: 1.4em;
+	float: right;
+	margin-left: 20px;
+}
+.icon-list{
+	top: -20px;
+}
+.icon-pro{
+	margin-left: 20px;
+	margin-right: 5px;
+}
+.botones{
+	top: 5px;
+	margin-left: 10px;
+	float: right;
+}
+.navbar-default {
+  background-color: #e0e0d1;
+}
+.navbar-default .navbar-brand {
+  color: #4d4d33;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #4d4d33;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #352813;
+  background-color: transparent;
+}
+.btn-default:hover {
+  color: #4d4d33;
+  background-color: #E2E2E2;
+  border-color: #ADADAD;
+}
+.panel-default > .panel-heading {
+  color: #4d4d33;
+  background-color: #e0e0d1;
+  border-color: #faebcc;
+}
+b.text-capitalize{
+	color: #4d4d33;
+}
+.panel-default > .panel-body {
+  color: #4d4d33;
+}
+.letra-form{
+	font-size: 1.5em;
+}
+.input-group-addon{
+  color: #4d4d33;
+  background-color: #e0e0d1;
+}
+.panel-body>form{
+	padding-top: 10px;
+}
+.input-marg{
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+#btn-producto{
+	padding: 0 15px 0 0; 
+}
+#btn-categoria{
+	padding-top: 80px;
+	margin-left: 90px;
+}
+.btn-letra{
+	font-size: 1.5em;
+}
+.lista{
+	width: 990px;
+	margin-left: 330px;
+}
+button.glyphicon.glyphicon-trash.icon.icon-list{
+	border: 0px;
+	background-color:white;
+	margin-top: 3px;
+}
+a.glyphicon.glyphicon-edit.icon.icon{
+	margin-top: -32px;
+}
+
+/*IMAGEN DE LA CATEGORÍA*/
+img#imgCategoria{
+	width: 25%;
+	margin-left:57;
+}
+/*Botón añadir producto*/
+.botonesAdd{
+	float:right;
+	margin-top: -20px;
+}
+table button.glyphicon.glyphicon-trash.icon.icon-list{
+	border: 0px;
+	background-color:white;
+	margin-top: 20px;
+}
+table a.glyphicon.glyphicon-edit.icon.icon{
+	margin-top: 0px;
+}
+.success{
+	 font-weight:bold;
+}
+#categoria{
+	width: 200px;
+}
+a.btn.btn-lg.btn-primary{
+	position:absolute;
+	margin-top: -81px;
+	margin-left: -38
+}
+label.navbar-brand{
+	width: 850px;
+}
