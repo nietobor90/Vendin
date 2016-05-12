@@ -158,6 +158,8 @@ function enviarOrden() {
     document.formOrden.submit();
 }
 
+
+
 //////////////////////////////FUNCIÓN PRINCIPAL/////////////////////////////////////////////////
 
 function principal() {
@@ -165,7 +167,7 @@ function principal() {
     //BARRA DE BUSQUEDA
     window.document.getElementById("buscar").onkeyup = cargaXMLDoc;
     //COOKIES
-    window.document.getElementById("acepCookie").onclick = controlcookies;
+//    window.document.getElementById("acepCookie").onclick = controlcookies;
     
     //FORMULARIO
 //    window.document.getElementById("nombre").addEventListener("keyup", function () {validar_nombre(); });
@@ -195,5 +197,6 @@ function principal() {
 
 //CARGAR FUNCIÓN PRINCIPAL
 window.onload = principal;
+
 
 

@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Producto;
 use App\Categoria;
+use App\anuncio;
 use Illuminate\Support\Facades\Request;
 use Session;
 use Auth;
@@ -43,7 +44,6 @@ class InicioController extends Controller {
 //            if(Auth::check()){
 //              //consulta de productos con valor pasado, estando logado
 //              $productos = Producto::where('rebaja', '!=', 0)->orderBy('rebaja', 'desc')->paginate(8);
-//               
 //            } else {//si el user no está logado
 //              $productos = \App\Producto::where('rebaja', '=', 0)->paginate(8);
 //            }
@@ -175,5 +175,18 @@ class InicioController extends Controller {
         //enlace Política y protección de datos
         public function politica(){
             return view('enlaces/politica');
+        }
+
+        public function publicarAnuncio(){
+            return view('anuncio/publicar');
+        }
+        public function modificarAnuncio(){
+            //Cogemos los anuncios que tiene el usuario conectado
+            if(Auth::check()){
+             //consulta de anuncios del usuario ordenados por fecha de creación
+             $anuncios = Anuncio::where('user', '=', Auth::user()->id)->orderBy('created_at', 'asc')->paginate(8);
+           }
+            return view('anuncio/modificar')
+            ->with('anuncios', $anuncios);
         }
 }

@@ -1,7 +1,7 @@
 @extends('Layouts.principal')
 
 @section('content')
-    Vendin
+    PÁGINA DE INICIO
 @stop
 
     

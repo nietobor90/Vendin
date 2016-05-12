@@ -6,7 +6,7 @@ class Anuncio extends Model {
 
        protected $table = 'anuncios';
        protected $primaryKey = "id";
-       protected $fillable = ['titulo', 'descripcion', 'precio'];
+       protected $fillable = ['titulo', 'descripcion', 'precio', 'categoria', 'user'];
        protected $guarded = [];
 
 

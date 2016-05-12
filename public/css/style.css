@@ -29,22 +29,36 @@ header {
 }
 #seccionLogin{
 	position: absolute;
-	margin-top: 50px;
-	margin-left: -350px;
-
+	margin-top: 30px;
+	margin-left: 450px;
+    text-decoration: none;
+}
+#seccionLogin ul{
+    list-style:none;
+}
+#seccionLogin a{
+    text-decoration:none;
+    color: black;
+}
+#seccionLogin a:hover{
+    /*color: #009933;color hover*/
+    text-decoration: underline;
 }
 #categoria{
 	width: 200px;
 }
 #buscar{
 	width: 300px;
+	font-family: sans-serif; 
+}
+.btn.btn-default{
+	background-color: #adebad;/*color fondo*/
 }
 
 /******************************************************************BOTON DE LOGIN**************************************************************************/
 .container { width:262px; margin:0 auto; padding-top:200px; }
 
-/*#bar { width:100%; height:35px; padding:15px 0; background:url(../images/bar.png) repeat-x; }
-*/#container { width:960px; margin:0 auto; }
+
 
 /*-------LOGIN STARTS HERE -------*/
 
@@ -53,35 +67,35 @@ header {
     position:relative;
     float:right;
     font-size:12px;
+    font-family: sans-serif; 
+    text-decoration: none;
 }
 
 /* Login Button */
 #loginButton { 
     display:inline-block;
-    float:right;
-    background:#d2e0ea url(../images/buttonbg.png) repeat-x; 
+    float:right; 
     border:1px solid #899caa; 
     border-radius:3px;
     -moz-border-radius:3px;
     position:relative;
     z-index:30;
     cursor:pointer;
+    background-color: #e6ffe6;/*color fondo*/
+    text-decoration: none;
 }
 
 /* Login Button Text */
 #loginButton span {
     color:#445058; 
-    font-size:14px; 
+    font-size:15px; 
     font-weight:bold; 
     text-shadow:1px 1px #fff; 
     padding:7px 29px 9px 10px;
-    background:url(../images/loginArrow.png) no-repeat 53px 7px;
+    background:url(/img/loginArrow.png) no-repeat 58px 9px;
     display:block
 }
 
-#loginButton:hover {
-    background:url(../images/buttonbgHover.png) repeat-x;
-}
 
 /* Login Box */
 #loginBox {
@@ -98,7 +112,7 @@ header {
 }
 
 #loginButton.active span {
-    background-position:53px -76px;
+    background-position:58px 9px-76px;
 }
 
 /* A Line added to overlap the border */
@@ -117,8 +131,10 @@ header {
     border-radius:3px 0 3px 3px;
     -moz-border-radius:3px 0 3px 3px;
     margin-top:-1px;
-    background:#d2e0ea;
+    background-color: #adebad;/*color fondo*/
     padding:6px;
+    background-color: #e6ffe6;/*color fondo*/
+    margin-top: 5px;
 }
 
 #loginForm fieldset {
@@ -150,6 +166,7 @@ fieldset#body {
     margin:9px 0 0 0;
     display:block;
     float:left;
+
 }
 
 #loginForm #body fieldset label {
@@ -174,20 +191,15 @@ fieldset#body {
 }
 
 /* Sign In Button */
-#loginForm #login {
+#loginForm #enviar, #loginForm #btnRegis{
     width:auto;
     float:left;
-    background:#339cdf url(../images/loginbuttonbg.png) repeat-x;
-    color:#fff;
     padding:7px 10px 8px 10px;
-    text-shadow:0px -1px #278db8;
-    border:1px solid #339cdf;
-    box-shadow:none;
-    -moz-box-shadow:none;
-    -webkit-box-shadow:none;
-    margin:0 12px 0 0;
-    cursor:pointer;
     *padding:7px 2px 8px 2px; /* IE7 Fix */
+    background-color: #adebad;/*color boton*/
+}
+#loginForm #enviar{
+	margin-right:  5px;
 }
 
 /* Forgot your password */
@@ -201,8 +213,90 @@ fieldset#body {
     color:#3a454d;
     text-shadow:1px 1px #fff;
     font-size:12px;
+
 }
 
 input:focus {
     outline:none;
+}
+/******************************************************************VENTANA DE REGISTRO*******************************************************************/
+.modal-content{
+	font-family: sans-serif; 
+}
+
+.logosUser{
+    width: 25px;
+    height: 25px;
+    margin-left: 5px;
+}
+.logoMenu{
+    width: 40px;
+    height: 40px;
+}
+
+/*centrado de menu*/
+/*.navbar .navbar-nav {
+  display: inline-block;
+  float: none;
+  vertical-align: top;
+}
+
+.navbar .navbar-collapse {
+  text-align: center;
+}*/
+.navbar.navbar-default{
+ background-color: #b3e6b3;/*color fondo menu*/
+ border-radius: 20px;
+}
+.h4Personalizado{
+    font-family: fantasy;
+    text-align: center;
+    font-size: 22px;
+}
+/********************************************ARTICLE PARA MOSTRAR ANUNCIOS****************************************/
+.articleAnuncio{
+    background-color: white;
+    border-radius: 20px;
+    font-family: sans-serif;
+    width: 242px;
+    float: left;
+    margin-left: 12px;
+    margin-top: 10px;
+    border: solid 0.5px;
+    border-color: #efeff5; /*color borde article*/
+}
+ .articleAnuncio a{
+    text-decoration: none;
+ }
+ .articleAnuncio:hover{
+    border-color: #d0d0e1; /*color borde article*/
+ }
+.articleAnuncio img{
+    width: 240px;
+    height: 240px;
+    border-radius: 20px 20px 0px 0px;
+}
+.precio{
+    margin-top: 10px;
+    margin-left: 10px;
+    text-decoration: none;
+    font-family: sans-serif;
+    font-size: 22px;
+    color: #00b359;/*color precio article*/
+}
+.tituloArticle {
+    font-family: sans-serif;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: #a2a2c3; /*color titulo article*/
+}
+
+/*MODIFICAR ANUNCIO*/
+.imgModifi{
+    text-align: center;
+    width: 180px;
+    height: 180px;
+}
+#secModAnun{
+    text-align: center;
 }

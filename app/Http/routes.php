@@ -14,6 +14,15 @@ Route::controllers([
 //	'auth' => 'Auth\AuthController',
 	'password' => 'Auth\PasswordController',
 ]);
+//NUEVAS
+Route::get("publicar", "InicioController@publicarAnuncio");
+Route::get("modificar", "InicioController@modificarAnuncio");
+Route::resource("anuncios", "AnunciosController");
+Route::get("anuncio/{producto_id}", "AnunciosController@show");
+
+Route::resource('anuncio', 'AnunciosController',
+                ['only' => ['show']]);
+Route::resource("productos", "AnunciosController");
 
 //Página de inicio
 //Route::get('/', 'InicioController@index');
@@ -62,9 +71,8 @@ Route::get("home/ordenar/{categoria}","InicioController@ordenarCategoria");
 
 //PRODUCTOS
 //visualizar producto específico (VISTA PRODUCTO)
-//Route::get("producto/{producto_id}", "ProductosController@show");
-Route::resource('producto', 'ProductosController',
-                ['only' => ['show']]);
+
+
 
 //Rutas para CATEGORÍAS
 //Route::get("categoria/{id}","CategoriasController@show");
@@ -89,7 +97,7 @@ Route::get("mapa", "SoapController@mapa");
 //RUTAS ADMIN
 Route::get('admin','InicioController@administrador');
 Route::resource("admin/categorias", "Admin\CategoriasController");
-Route::resource("admin/productos", "Admin\ProductosController");
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -100,3 +108,5 @@ Route::resource("admin/productos", "Admin\ProductosController");
 //
 //Route::resource('photo', 'PhotoController',
 //                ['except' => ['create', 'store', 'update', 'destroy']]);
+
+
