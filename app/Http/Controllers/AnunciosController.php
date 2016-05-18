@@ -5,10 +5,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Anuncio;
 use App\Categoria;
+use App\user;
 use App\Auth;
 use File, Storage;
 use Session;
 use Validator;
+use Mail;
 
 class AnunciosController extends Controller {
 
@@ -79,7 +81,7 @@ class AnunciosController extends Controller {
                 //Validación de datos enviados...
 
                 //guardamos nuevo Anuncio
-                 Anuncio::create([
+                $anuncio = Anuncio::create([
                     'titulo' => $request['titulo'],
                     'descripcion' => $request['descripcion'],
                     'categoria' => $categoria_id[0]->id,
@@ -87,8 +89,9 @@ class AnunciosController extends Controller {
                     'user' => $_POST['idUser'],
                 ]);
                 
+                //PONER NOMBRE DE LA IMAGEN EL ID DEL ANUNCIO
                 // $nombreImagen = $file->getClientOriginalName(); 
-                $nombreImagen =  $request['titulo'].".jpg";
+                $nombreImagen =  $anuncio->id.".jpg";
                 //guardamos imagen nueva
                 Storage::put("anuncios/$nombreImagen", File::get($file));
             
@@ -111,7 +114,7 @@ class AnunciosController extends Controller {
             $producto = $productoArray[0];
             
             //retornamos vista
-            return view('anuncio/anuncioModificar')
+            return view('anuncio/anuncioVer')
             ->with('producto', $producto);
 	}
 
@@ -123,7 +126,13 @@ class AnunciosController extends Controller {
 	 */
 	public function edit($id)
 	{
-		
+		//cogemos anuncio específico
+            $productoArray = Anuncio::where('id','=',$id)->get();
+            $producto = $productoArray[0];
+            
+            //retornamos vista
+            return view('anuncio/anuncioModificar')
+            ->with('producto', $producto);
 	}
 
 	/**
@@ -171,8 +180,6 @@ class AnunciosController extends Controller {
 
             } else {//Si la validación no tiene fallos...
 
-            	//cogemos anuncio antiguo y sacamos su titulo para poder borrar su imagen
-            	$anuncioAntiguo = Anuncio::where('id','=',$id)->get();
             	//sacamos clave foranea de la categoría
 		        $categoria_id = Categoria::select('id')->where('nombre', '=', $request['categoria'])->get();
 
@@ -183,7 +190,6 @@ class AnunciosController extends Controller {
 		                //añadimos ruta repositorio imagenes de anuncios
 		                $nombre = "img/anuncios/".$file->getClientOriginalName();
 		                
-
 		                //modificamos Anuncio
 		                 Anuncio::where('id', '=', $id)->update(array(
 		                    'titulo' => $request['titulo'],
@@ -191,54 +197,28 @@ class AnunciosController extends Controller {
 		                    'categoria' => $categoria_id[0]->id,
 		                    'precio' => $request['precio'],
 		                ));
-		                
-		                // $nombreImagen = $file->getClientOriginalName(); 
-		                $nombreImagen =  $request['titulo'].".jpg";
+		                 
+		                $nombreImagen =  $id.".jpg";
 		                //guardamos imagen nueva
 		                Storage::put("anuncios/$nombreImagen", File::get($file));
-		                //comprobar si se ha modificado el titulo del anuncio
-			            if($anuncioAntiguo[0]->titulo != $request['titulo']){
-			            	//borramos imagen antigua   
-			            	Storage::delete('anuncios/'.$anuncioAntiguo[0]->titulo.'.jpg');
-			            }
 
 		            	//mensaje de aviso
 			            return redirect("modificar")
 			            ->with('messageGood', 'Se ha modificado el anuncio '.$request['titulo'].'.');
 
             	} else {
-            		//ACTUALIZAR IMGAEN ANTIGUA DEL ANUNCIO 
-            		//cogemos imagen del sistema
-		            $rutaImgAntigua = 'anuncios/'.$anuncioAntiguo[0]->titulo.'.jpg';   
-		            $imagenAntigua = Storage::get($rutaImgAntigua); 
-		            //guardamos con nombre nuevo	
-		            $nombreImagen =  $request['titulo'].".jpg";
-		            //guardamos imagen nueva utilizando la anterior
-		            Storage::put("anuncios/$nombreImagen", $imagenAntigua);
-		            //comprobar si se ha modificado el titulo del anuncio
-		            if($anuncioAntiguo[0]->titulo != $request['titulo']){
-		            	//borramos imagen antigua   
-		            	Storage::delete('anuncios/'.$anuncioAntiguo[0]->titulo.'.jpg');
-		            }
-		            
-
-		                //modificamos Anuncio
-		                 Anuncio::where('id', '=', $id)->update(array(
-		                    'titulo' => $request['titulo'],
-		                    'descripcion' => $request['descripcion'],
-		                    'categoria' => $categoria_id[0]->id,
-		                    'precio' => $request['precio'],
-		                ));
+	                //modificamos Anuncio
+	                 Anuncio::where('id', '=', $id)->update(array(
+	                    'titulo' => $request['titulo'],
+	                    'descripcion' => $request['descripcion'],
+	                    'categoria' => $categoria_id[0]->id,
+	                    'precio' => $request['precio'],
+	                ));
 
 		            return redirect("modificar")
 	            	->with('messageGood', 'Se ha modificado el anuncio '.$request['titulo'].'.');     	
-
-
-		                
             }
         }
-            	
-// 		
 	}
 
 	/**
@@ -249,7 +229,66 @@ class AnunciosController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+        //borramos imagen del anuncio
+        Storage::delete('anuncios/'.$id.'.jpg');
+        //destruimos anuncio
+        Anuncio::destroy($id);
+        //redireccionamos
+        return redirect("modificar")
+	    ->with('messageAviso', 'Su anuncio ha sido borrado.');
 	}
+
+	public function contact(Request $request){
+		//reglas
+        $rules = [
+            'nameContact' => 'required|min:3|max:255',
+            'emailContact' => 'required|email|max:255',
+            'mensajeContact' => 'required|min:6|max:255',
+        ];
+        //mensajes
+        $messages = [
+            'nameContact.required' => 'Este campo es requerido',
+            'nameContact.min' => 'El mínimo de caracteres permitidos son 3',
+            'nameContact.max' => 'El máximo de caracteres permitidos son 16',
+            'emailContact.required' => 'Este campo es requerido',
+            'emailContact.email' => 'El formato de email es incorrecto',
+            'emailContact.max' => 'El máximo de caracteres permitidos son 255',
+            'mensajeContact.required' => 'Este campo es requerido',
+            'mensajeContact.min' => 'El formato de email es incorrecto',
+            'mensajeContact.max' => 'El máximo de caracteres permitidos son 255',
+        ];
+        //validación
+        $validator = Validator::make($request->all(), $rules, $messages);
+        
+        if ($validator->fails()) {//si la validación da fallos...
+        	$id = $request['idAnuncio'];
+        	$ruta = 'view/'.$id;
+            return redirect($ruta)
+            ->withErrors($validator)
+                    ->withInput();
+
+        }else {
+            //cogemos correo del usuario anunciante
+            $usuarioAnunciante = User::select('email')->where('id', '=', $request['userAnuncio'])->get();
+            
+            $data['name'] = $request->nameContact;
+            $data['email']  = $usuarioAnunciante[0]->email;
+            $data['emailContact']  = $request->emailContact;
+            $data['mensaje'] = $request->mensajeContact;
+            $data['titulo'] = $request->tituloAnuncio;
+            $data['telefono'] = $request->telefonoContact;
+            
+            //email de confirmación, plantilla guardada en la carpeta mails/register
+            Mail::send('mails.contactUser', ['data' => $data], function($mail) use($data){
+                $mail->subject('Un contacto está interesado en tu anuncio '.$data['titulo']);
+                $mail->to($data['email'], $data['name'], $data['mensaje'], $data['emailContact'], $data['telefono']);
+            });
+            
+            $id = $request['idAnuncio'];$ruta = 'view/'.$id;
+            return redirect($ruta)
+            ->with('messageGood', 'Hemos enviado un e-mail con su mensaje al anunciante.');
+		}
+	}
+
 
 }

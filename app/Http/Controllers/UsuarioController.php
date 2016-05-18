@@ -100,7 +100,7 @@ class UsuarioController extends Controller {
             //reglas 
             $rules = [
             'name' => 'required|min:3|max:255|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-            'apellidos' => 'required|min:3|max:255|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            'apellido' => 'required|min:3|max:255|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
             'email' => 'required|email|max:255',
             ];
             //mensajes
@@ -109,10 +109,10 @@ class UsuarioController extends Controller {
                 'name.min' => 'El mínimo de caracteres permitidos son 3',
                 'name.max' => 'El máximo de caracteres permitidos son 16',
                 'name.regex' => 'Sólo se aceptan letras',
-                'apellidos.required' => 'Este campo es requerido',
-                'apellidos.min' => 'El mínimo de caracteres permitidos son 3',
-                'apellidos.max' => 'El máximo de caracteres permitidos son 16',
-                'apellidos.regex' => 'Sólo se aceptan letras',
+                'apellido.required' => 'Este campo es requerido',
+                'apellido.min' => 'El mínimo de caracteres permitidos son 3',
+                'apellido.max' => 'El máximo de caracteres permitidos son 16',
+                'apellido.regex' => 'Sólo se aceptan letras',
                 'email.required' => 'Este campo es requerido',
                 'email.email' => 'El formato de email es incorrecto',
                 'email.max' => 'El máximo de caracteres permitidos son 255',
@@ -120,13 +120,15 @@ class UsuarioController extends Controller {
             //validación
             $validator = Validator::make($request->all(), $rules, $messages);
             
-            if($validator->fails()){//si la validación falla
+            if($validator->fails()){
                 return redirect('usuario/perfil_user')
-                ->withErrors($validator);
+                ->withErrors($validator)
+                ->withInput()
+                ->with('messageError', 'Error al modificar sus datos, revise los campos con errores.');
             } else {//si no falla
                 $user = new User;
                 $user->where('name', '=', Auth::user()->name)
-                        ->update(['name'=> $request->name, 'apellidos'=> $request->apellidos, 'email'=> $request->email]);
+                        ->update(['name'=> $request->name, 'apellidos'=> $request->apellido, 'email'=> $request->email]);
                 
                 return redirect('usuario/perfil_user')
                 ->with('messageGood', 'Datos actualizados correctamente');
@@ -147,7 +149,7 @@ class UsuarioController extends Controller {
             
             //redireccionamos
             return redirect('/')
-                ->with('messageAviso', 'Su usuario ha sido borrado, esperamos volver a verle pronto, un saludos desde SkullBoom.');
+                ->with('messageAviso', 'Su usuario ha sido borrado, esperamos volver a verle pronto, un saludos desde Vendin.');
 	}
 
 }

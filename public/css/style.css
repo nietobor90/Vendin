@@ -1,10 +1,15 @@
 body {
-	background-color: #e6ffe6;/*color fondo*/
-	width:1024px;
-	margin-left:auto;
-	margin-right:auto;
-	margin-top:auto;
-	font-family: fantasy; 
+	width: 100%;
+    background-color: #e6ffe6;/*color fondo*/
+}
+#contenedor{
+    width:1024px;
+    background-color: #e6ffe6;/*color fondo*/
+    width:1024px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:auto;
+    font-family: fantasy; 
 }
 #logo{
 	width: 40%; 
@@ -14,8 +19,9 @@ body {
 header {
     background-color: white;
 	font-size: 20px;
-	border-radius: 20px;
+	border-radius: 20px 20px 0px 0px;
 }
+
 .row{
 	width: 600px;
 }
@@ -29,8 +35,10 @@ header {
 }
 #seccionLogin{
 	position: absolute;
+    float: right;
 	margin-top: 30px;
-	margin-left: 450px;
+	margin-left: 400px;
+    padding-right: 20px;
     text-decoration: none;
 }
 #seccionLogin ul{
@@ -233,6 +241,12 @@ input:focus {
     width: 40px;
     height: 40px;
 }
+.logoMenu1{
+    position: relative;
+    margin-top: -15px;
+    width: 70px;
+    height: 70px;
+}
 
 /*centrado de menu*/
 /*.navbar .navbar-nav {
@@ -246,7 +260,7 @@ input:focus {
 }*/
 .navbar.navbar-default{
  background-color: #b3e6b3;/*color fondo menu*/
- border-radius: 20px;
+ border-radius: 0px 0px 20px 20px;
 }
 .h4Personalizado{
     font-family: fantasy;
@@ -299,4 +313,140 @@ input:focus {
 }
 #secModAnun{
     text-align: center;
+}
+
+/*vista anuncio*/
+.imgVer{
+    width: 599px;
+    height: 599px;
+    margin-left: -15px;
+    margin-top: -15px;
+    border-radius: 5px 5px 0px 0px;
+}
+.tituloArticle3{
+    font-family: sans-serif;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: black;
+}
+.imgPie{
+    width: 100%;
+}
+
+/**************************************PAGINACIÓN***************************************/
+.pagination {
+  display: inline-block;
+  padding-left: 0;
+  margin: 20px 0;
+  border-radius: 4px;
+  width: 1018px;
+}
+ul.pagination{
+ float:left;
+ left:42%;
+ margin:0 auto;
+ position:relative;
+}
+.pagination > li {
+  display: inline;
+}
+.pagination > li > a,
+.pagination > li > span {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  margin-left: -1px;
+  line-height: 1.42857143;
+  color: green; /*color página seleccionada*/
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+.pagination > li:first-child > a,
+.pagination > li:first-child > span {
+  margin-left: 0;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+  z-index: 2;
+  color: green; /*color página seleccionada*/
+  background-color: #eee;/*color hover*/
+  border-color: #ddd;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  z-index: 3;
+  color: #fff;
+  cursor: default;
+  background-color: #00cc66;/*selección de página*/
+  border-color: #00994d;
+}
+.pagination > .disabled > span,
+.pagination > .disabled > span:hover,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > a,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > a:focus {
+  color: green; /*color página seleccionada*/
+  cursor: not-allowed;
+  background-color: #fff;
+  border-color: #ddd;
+}
+.pagination-lg > li > a,
+.pagination-lg > li > span {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+}
+.pagination-lg > li:first-child > a,
+.pagination-lg > li:first-child > span {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+.pagination-lg > li:last-child > a,
+.pagination-lg > li:last-child > span {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.pagination-sm > li > a,
+.pagination-sm > li > span {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.pagination-sm > li:first-child > a,
+.pagination-sm > li:first-child > span {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.pagination-sm > li:last-child > a,
+.pagination-sm > li:last-child > span {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+
+/**/
+div.collapse.navbar-collapse.navbar-ex1-collapse a{
+    height: 70px;
+}
+
+.botonesModificar{
+    float: right;
+}
+.botonesModificar td{
+    padding: 5px;
 }

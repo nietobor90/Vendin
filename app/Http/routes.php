@@ -18,7 +18,24 @@ Route::controllers([
 Route::get("publicar", "InicioController@publicarAnuncio");
 Route::get("modificar", "InicioController@modificarAnuncio");
 Route::resource("anuncios", "AnunciosController");
-Route::get("anuncio/{producto_id}", "AnunciosController@show");
+Route::get("view/{producto_id}", "AnunciosController@show");
+Route::get("update/{producto_id}", "AnunciosController@edit");
+Route::post("contact", "AnunciosController@contact");
+Route::resource('anuncio','AnunciosController');
+
+//BUSCADOR
+Route::get('home/searchredirect', function(){
+    /*si el argumento search está vacío, regresar a la página anterior */
+    if (empty(Input::get('search'))) return redirect()->back();
+    
+    $search = urlencode(e(Input::get('search')));
+    $categoria = urlencode(e(Input::get('categoria')));
+    $route = "home/search/$search/$categoria";
+    return redirect($route);        
+});
+Route::get("home/search/{search}/{categoria}","InicioController@search");
+
+/////////////////////////////////////////////////////////////////////////////////////
 
 Route::resource('anuncio', 'AnunciosController',
                 ['only' => ['show']]);
@@ -52,16 +69,7 @@ Route::post('usuario/perfil_user', 'UsuarioController@update');//modificación u
 //Route::delete('usuario.destroy','UsuarioController@destroy');
 Route::resource('usuario','UsuarioController');
 
-//BUSCADOR
-Route::get('home/searchredirect', function(){
-    /*si el argumento search está vacío, regresar a la página anterior */
-    if (empty(Input::get('search'))) return redirect()->back();
-    
-    $search = urlencode(e(Input::get('search')));
-    $route = "home/search/$search";
-    return redirect($route);        
-});
-Route::get("home/search/{search}","InicioController@search");
+
 
 //ORDENAR
 //ordenar productos del resultado de busqueda especifica

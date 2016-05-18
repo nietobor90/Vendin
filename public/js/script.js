@@ -158,7 +158,11 @@ function enviarOrden() {
     document.formOrden.submit();
 }
 
-
+function pregunta(){ 
+    if (confirm('¿Estas seguro de enviar este formulario?')){ 
+       document.tuformulario.submit() 
+    } 
+} 
 
 //////////////////////////////FUNCIÓN PRINCIPAL/////////////////////////////////////////////////
 

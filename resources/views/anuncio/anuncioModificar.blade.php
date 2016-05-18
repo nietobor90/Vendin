@@ -7,7 +7,7 @@
 		    <h4 class="h4Personalizado">MODIFICAR ANUNCIO</h4>
 		    <div class="modal-body">
 			    {!!Form::model($producto,['route'=>['anuncios.update', $producto->id], 'method'=>'PUT', 'files'=>'true'])!!}
-				  <?php $imgName = "img/anuncios/".$producto->titulo.".jpg"?>
+				  <?php $imgName = "img/anuncios/".$producto->id.".jpg"?>
 				  <?php $mensaje = Session::get('messageErrorModificar')?>
 				   
 			        @if($mensaje!="")
@@ -67,9 +67,33 @@
 			            <div class="text-danger"> {{$errors->first('categoria')}}</div>
 			        </div>
 			</div>	        
-			<div class="modal-footer">        
-				  <button type="submit" class="btn btn-default">Modificar</button>
-				{!!Form::close()!!}
+			<div class="modal-footer"> 
+						<table class="botonesModificar">  
+							<tr>
+								<td>
+									<button type="submit" class="btn btn-default">Modificar</button>
+									{!!Form::close()!!}
+								</td>
+								<td>
+									<!-- BORRAR PRODUCTO--> 
+		                            <?php $idAnuncio = $producto->id?>
+		                            {!! Form::open(['route' => ['anuncio.destroy', $idAnuncio], 'method' => 'delete']) !!}
+		                            <button onclick="pregunta()" class="btn btn-default" type='button'>Borrar anuncio</button>
+		                            <button  id='borrarAnuncio' type='submit' style='display:none;'>Borrar anuncio</button>
+		                            {!! Form::close() !!} 
+								</td>
+							</tr>   
+                            <br>            
+                        </table>      
+                            
+                            
+                            <script language="JavaScript"> 
+                            function pregunta(){ 
+                                if (confirm('¿Seguro que quiere borrar este anuncio?')){ 
+                                   window.document.getElementById("borrarAnuncio").click();
+                                }
+                            } 
+                            </script>
 			</div>	
 		</div>
 	</div>

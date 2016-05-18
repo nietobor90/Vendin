@@ -15,4 +15,9 @@ class Anuncio extends Model {
             return $this->belongsTo('App\Categoria');
         }
 
+        public function scopeAnuncioOK($query)
+	    {
+	        return $query->where('id', '!=', '0');
+	    }
+
 }

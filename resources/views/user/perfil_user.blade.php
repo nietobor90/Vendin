@@ -1,58 +1,52 @@
 @extends('Layouts.principal')
 
 @section('content')
-    <section id="contenidoUpdate">
-        <form name="formDatos" action="{{url('usuario/perfil_user')}}" method="POST">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <div class="text_info_update">
-            @if(Session::has('message'))
-                {{Session::get('message')}}
-            @endif
-            </div>
-            <table>
-                <h2 id="datosPerUpdate">Datos personales</h2>
-                <hr id="lineaUpdate1">
-                    <tr>
-                        <td>
-                            <img id="logoUpdate" src="{{ asset('img/usuario.png') }}" alt="" />
-                        </td>
-                        <td id="formUser">
-                            <label>Nombre *</label><br>
-                            <input type="text" required title="Introducir nombre" value="<?php echo Auth::user()->name;?>" name="name" id="name"><br>
-                            <div class="text-danger"> {{$errors->first('name')}}</div>
-                            <label>Apellido(s) *</label><br>
-                            <input type="text" required title="Introducir apellidos" value="<?php echo Auth::user()->apellidos;?>" name="apellidos" id="apellidos"><br>
-                            <div class="text-danger"> {{$errors->first('apellidos')}}</div>
-                            <label>Correo electrónico *</label><br>
-                            <input type="text" required title="Introducir e-mail" value="<?php echo Auth::user()->email;?>" name="email" id="email">
-                            <div class="text-danger"> {{$errors->first('email')}}</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        </td>
-                        <td>
-                            <button type="submit" id="actualizarDatos">ACTUALIZAR</button>
-                        </td>
-                    </tr>
-            </table>
-        </form>
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <table id="tableBaja">
-                <h2 id="cambiarPassUpdate">¿Desea darse de baja?</h2>
-                <hr id="lineaUpdate2">
-                    <tr>
-                        <td>
-                            {!! Form::open(['route' => ['usuario.destroy', Auth::user()->id], 'method' => 'delete']) !!}
-                                <button id="botonBaja" type="submit">DARME DE BAJA</button>
-                            {!! Form::close() !!} 
-                        </td>
-                        <td>
-                            <a href="/home"><label id="cancelar">SALIR</label></a>
-                        </td>
-                    </tr>
-            </table>
-        
-    </section>
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <h4 class="h4Personalizado">PERFIL DE USUARIO</h4>
+        <div class="modal-body">
+            <form name="formDatos" action="{{url('usuario/perfil_user')}}" method="POST">
+              <input type="hidden" name="_token" value="{{ csrf_token() }}">
+              <div class="form-group">  
+                <label for="name" class="letra-form">Nombre</label>
+                <input type="text" class="form-control" id="name" name="name"
+                       placeholder="{{Auth::user()->name}}" required>
+                <div class="text-danger"> {{$errors->first('name')}}</div>
+              </div>
+              <div class="form-group">  
+                <label for="apellido" class="letra-form">Apellido</label>
+                <input type="text" class="form-control" id="apellido" name="apellido"
+                       placeholder="{{Auth::user()->apellidos}}" required>
+                <div class="text-danger"> {{$errors->first('apellido')}}</div>
+              </div>
+              <div class="form-group">  
+                <label for="email" class="letra-form">Correo electrónico</label>
+                <input type="email" class="form-control" id="email" name="email"
+                       placeholder="{{Auth::user()->email}}" required>
+                <div class="text-danger"> {{$errors->first('email')}}</div>
+              </div>
+              
+        </div>          
+        <div class="modal-footer">        
+              <button type="submit" class="btn btn-default">ACTUALIZAR DATOS</button>
+            {!!Form::close()!!} 
+
+                <h4 class="h4Personalizado">¿Desea darse de baja?</h4>
+                {!! Form::open(['route' => ['usuario.destroy', Auth::user()->id], 'method' => 'delete']) !!}
+                <button onclick="pregunta()" class="btn btn-default" type='button'>DARME DE BAJA</button>
+                <button  id='borrarUser' type='submit' style='display:none;'></button>
+                {!!Form::close()!!}             
+                            
+                            
+                <script language="JavaScript"> 
+                function pregunta(){ 
+                    if (confirm('¿Seguro que quiere darse de baja?')){ 
+                       window.document.getElementById("borrarUser").click();
+                    }
+                } 
+                </script>  
+        </div>          
+    </div>    
+    </div>
 
 @stop

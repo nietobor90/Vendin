@@ -6,9 +6,9 @@
         <!--mostramos todos los productos, incluidos los que tienen descuento-->
         @foreach($anuncios as $producto)
             <article class="articleAnuncio">
-                <a href="{{url()}}/anuncio/{{$producto->id}}">
+                <a href="{{url()}}/update/{{$producto->id}}">
                     <figure >
-                    <?php $imgName = "img/anuncios/".$producto->titulo.".jpg"?>
+                    <?php $imgName = "img/anuncios/".$producto->id.".jpg"?>
                         <img name="imagenProducto" src='{{$imgName}}' alt="productos" aria-label="ImagenDeAccesoProducto">
                         <!--PRECIO-->
                         <figcaption class="precio"><label >{{$producto->precio}} €</label></figcaption>
