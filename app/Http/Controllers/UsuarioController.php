@@ -29,41 +29,14 @@ class UsuarioController extends Controller {
 	 */
 	public function create()
 	{
-//		return view('registro');
+
 	}
 
 	/**
 	 GUARDAR UN RECURSO RECIEN CREADO EN EL ALMACENAMIENTO
 	 */
 	public function store(Request $request){
-//            //datos
-//            $data = Requests::all();
-//            //reglas
-//            $rules = array(
-//                'name' => 'required', 
-//                'email' => 'required', 
-//                'password' => 'required', 
-//                'apellidos' => 'required'
-//            );            
-//            //validar datos
-//            $v = Validator::make($data, $rules);
 //            
-//            //si la validación encuentra fallos
-//            if ($v->fails()) {
-//                return redirect()->back()
-//                       ->withErrors($v->errors())
-//                       ->withInput(Requests::except('password'));
-//            }
-//            
-//            \App\User::create([
-//                'name' => $request['nombre'],
-//                'apellidos' => $request['ape'],
-//                'email' => $request['mail'],
-//                'password' => bcrypt($request['pwd2']),
-//                ]);
-//            
-//            //mostrar vsita de login
-//            return view('login');
 	}
 
 	/**
@@ -74,7 +47,7 @@ class UsuarioController extends Controller {
 	 */
 	public function show($id)
 	{
-                //mandamos a perfil del usuario
+        //mandamos a perfil del usuario
 		return view('user/perfil_user');
 	}
 

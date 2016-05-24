@@ -21,7 +21,9 @@ header {
 	font-size: 20px;
 	border-radius: 20px 20px 0px 0px;
 }
-
+footer table{
+  margin: auto;
+}
 .row{
 	width: 600px;
 }
@@ -288,6 +290,7 @@ input:focus {
 .articleAnuncio img{
     width: 240px;
     height: 240px;
+    object-fit: cover;
     border-radius: 20px 20px 0px 0px;
 }
 .precio{
@@ -310,6 +313,7 @@ input:focus {
     text-align: center;
     width: 180px;
     height: 180px;
+    object-fit: cover;
 }
 #secModAnun{
     text-align: center;
@@ -322,6 +326,24 @@ input:focus {
     margin-left: -15px;
     margin-top: -15px;
     border-radius: 5px 5px 0px 0px;
+    object-fit: cover;
+}
+.imgVer2{
+  position: absolute;
+    width: 100px;
+    height: 100px;
+    /*margin-left: 475px;
+    margin-top: -590px;*/
+    margin-left: 250px;
+    margin-top: -350px;
+    border-radius: 5px 5px 0px 0px;
+    object-fit: cover;
+}
+#imgLupa:hover{
+    background: url(img/lupa.jpg);
+     height: 500px;
+  width: 500px;
+  z-index: 5555px;
 }
 .tituloArticle3{
     font-family: sans-serif;
@@ -450,3 +472,155 @@ div.collapse.navbar-collapse.navbar-ex1-collapse a{
 .botonesModificar td{
     padding: 5px;
 }
+
+/*********************************************************************COOKIES****************************************************************************/
+@keyframes desaparecer
+{
+0%    {bottom: 0px;}
+80%   {bottom: 0px;}
+100%    {bottom: -50px;}
+}
+ 
+@-webkit-keyframes desaparecer /* Safari and Chrome */
+{
+0%    {bottom: 0px;}
+80%   {bottom: 0px;}
+100%    {bottom: -50px;}
+}
+ 
+@keyframes aparecer
+{
+0%    {bottom: -38px;}
+10%   {bottom: 0px;}
+90%   {bottom: 0px;}
+100%    {bottom: -38px;}
+}
+ 
+@-webkit-keyframes aparecer /* Safari and Chrome */
+{
+0%    {bottom: -38px;}
+10%   {bottom: 0px;}
+90%   {bottom: 0px;}
+100%    {bottom: -38px;}
+}
+#cookiesms1:target {
+    display: none;
+}
+.cookiesms{ 
+  width:100%;
+  height:43px;
+  margin:0 auto;
+  padding-left:1%;
+        padding-top:5px;
+        font-size: 1.2em;
+  clear:both;
+        font-weight: strong;
+color: #333;
+bottom:0px;
+position:fixed;
+left: 0px;
+background-color: #FFF;
+opacity:0.7;
+filter:alpha(opacity=70); /* For IE8 and earlier */
+transition: bottom 1s;
+-webkit-transition:bottom 1s; /* Safari */
+-webkit-box-shadow: 3px -3px 1px rgba(50, 50, 50, 0.56);
+-moz-box-shadow:    3px -3px 1px rgba(50, 50, 50, 0.56);
+box-shadow:         3px -3px 1px rgba(50, 50, 50, 0.56);
+z-index:999999999;
+}
+ 
+.cookiesms:hover{
+bottom:0px;
+}
+.cookies2{
+background-color: #FFF;
+display:inline;
+opacity:0.95;
+filter:alpha(opacity=95);
+position:absolute; 
+left:1%; 
+top:-30px;
+font-size:15px;
+height:30px;
+padding-left:25px;
+padding-right:25px;
+-webkit-border-top-right-radius: 15px;
+-webkit-border-top-left-radius: 15px;
+-moz-border-radius-topright: 15px;
+-moz-border-radius-topleft: 15px;
+border-top-right-radius: 15px;
+border-top-left-radius: 15px;
+-webkit-box-shadow: 3px -3px 1px rgba(50, 50, 50, 0.56);
+-moz-box-shadow:    3px -3px 1px rgba(50, 50, 50, 0.56);
+box-shadow:         3px -3px 1px rgba(50, 50, 50, 0.56);
+}
+
+/*ENLACES PIE DE PÁGINA*/
+#enlacesPie {
+width: auto;
+text-align: center;
+font-family: sans-serif; 
+font-size: 16px;
+}
+#enlacesPie td{
+padding: 5px;
+}
+.copyright{
+  text-align: center;
+  font-family: sans-serif; 
+  font-size: 16px;
+}
+
+
+/*ventana modal mostrar igamen del anuncio al 100%*/
+
+#popup {
+   visibility: hidden;
+   opacity: 0;
+   margin-top: -300px;
+}
+
+#popup:target {
+   visibility:visible;
+   opacity: 1;
+   background-color: rgba(0,0,0,0.8);
+   position: fixed;
+   top:0;
+   left:0;
+   right:0;
+   bottom:0;
+   margin:0;
+   z-index: 999;
+   -webkit-transition:all 1s;
+   -moz-transition:all 1s;
+   transition:all 1s;
+}
+.popup-contenedor {
+   position: relative;
+   margin:7% auto;
+   padding:30px 50px;
+   background-color: #fafafa;
+   color:#333;
+   border-radius: 3px;
+   width:50%;
+}
+a.popup-cerrar {
+   position: absolute;
+   top:3px;
+   right:3px;
+   background-color: #333;
+   padding:7px 10px;
+   font-size: 20px;
+   text-decoration: none;
+   line-height: 1;
+   color:#fff;
+}
+.imgTotal{
+  width: 100%;
+  height: 100%;
+}
+
+
+
+

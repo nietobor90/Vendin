@@ -1,15 +1,6 @@
-<!--//categorias-->
-                <?php 
-                //cogemos variables guardadas en sesión-->
-//                    $categoriasPadre = Session::get('categoriasP');
-//                    $arrayCategorias = Session::get('arrayCategorias');
-//                    $indice = Session::get('indice');
-                    
-                //espacio total para el menú css: 950px
-//                    $anchoMenu = 900;
-//                    $nSecciones = count($categoriasPadre)+2;
-//                    $tamanoSeccion = round($anchoMenu/$nSecciones);
-                ?>
+<?php 
+  session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -234,10 +225,45 @@
       </div>
   </div>    
 </body>
+<hr>
 <footer>
-  <img class="imgPie" src="{{ asset('img/fondoPie.jpg') }}" />
+
+  <table id="enlacesPie">
+    <tr>
+      <td>
+        <a href="{{url('/condiciones')}}">Condiciones de uso</a>
+      </td>
+      <td> | </td>
+      <td>
+        <a href="{{url('/ayuda')}}">Ayuda</a>
+      </td>
+      <td> | </td>
+      <td>
+        <a href="{{url('/politica')}}">Política de privacidad</a>
+      </td>
+    </tr>
+  </table>
 </footer>
-  
+<hr>
+  <div class="copyright">&#169; 2016 Vendin</div>
+  <img class="imgPie" src="{{ asset('img/fondoPie.jpg') }}" />
+<!-- COOKIES -->
+@if(!isset($_SESSION['cookies']))
+  <?php $_SESSION['cookies'] = 'cookies';?>
+  <div class="cookiesms" id="cookie1">
+  Esta web utiliza cookies, puedes ver nuestra  <a href="{{url('/cookies')}}">la política de cookies, aquí</a> 
+  Si continuas navegando estás aceptándola
+  <button onclick="controlcookies()">Aceptar</button>
+  <div  class="cookies2" onmouseover="document.getElementById('cookie1').style.bottom = '0px';">Política de cookies + </div>
+  </div>
+  $_SESSION['cookies'] = 'cookies';
+@endif  
+<script type="text/javascript">
+  if (localStorage.controlcookie>0){
+   document.getElementById('cookie1').style.bottom = '-50px';
+  }
+</script>
+
 </html>
 
 

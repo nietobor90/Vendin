@@ -16,7 +16,6 @@ class Admin {
     {
             if ($this->auth->user()->id != 12)
             {
-//                Session::put('messageError', 'No es administrador.');
                 return redirect('auth/login'); 
                     
             }

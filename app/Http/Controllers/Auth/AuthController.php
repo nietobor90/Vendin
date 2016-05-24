@@ -40,131 +40,131 @@ class AuthController extends Controller {
 	{
 		$this->auth = $auth;
 		$this->registrar = $registrar;
-                //a las acciones de middleware solo pueden acceder usuarios que han iniciado sesión
+        //a las acciones de middleware solo pueden acceder usuarios que han iniciado sesión
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
         
-        //MÉTODO PARA VALIDAR Y REGISTRAR USUARIOS
-        public function postRegister(Request $request) {
-            //reglas
+    //MÉTODO PARA VALIDAR Y REGISTRAR USUARIOS
+    public function postRegister(Request $request) {
+        //reglas
+        $rules = [
+            'name' => 'required|min:3|max:255|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            'apellidos' => 'required|min:3|max:255|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|min:6|max:60|confirmed',
+        ];
+        //mensajes
+        $messages = [
+            'name.required' => 'Este campo es requerido',
+            'name.min' => 'El mínimo de caracteres permitidos son 3',
+            'name.max' => 'El máximo de caracteres permitidos son 16',
+            'name.regex' => 'Sólo se aceptan letras',
+            'apellidos.required' => 'Este campo es requerido',
+            'apellidos.min' => 'El mínimo de caracteres permitidos son 3',
+            'apellidos.max' => 'El máximo de caracteres permitidos son 16',
+            'apellidos.regex' => 'Sólo se aceptan letras',
+            'email.required' => 'Este campo es requerido',
+            'email.email' => 'El formato de email es incorrecto',
+            'email.max' => 'El máximo de caracteres permitidos son 255',
+            'email.unique' => 'El email ya existe',
+            'password.required' => 'Este campo es requerido',
+            'password.min' => 'El mínimo de caracteres permitidos son 6',
+            'password.max' => 'El máximo de caracteres permitidos son 18',
+            'password.confirmed' => 'El password no coincide',
+        ];
+        //validación
+        $validator = Validator::make($request->all(), $rules, $messages);
+        
+        if ($validator->fails()) {//si la validación da fallos...
+            return redirect('/')
+            ->withErrors($validator)
+            ->withInput();
+        } else { //si no da ningun error
+            //guardamos registro
+            $user = new User;
+            $data['name'] = $user->name = $request->name;
+            $user->apellidos = $request->apellidos;
+            $data['email'] =$user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $data['confirm_token'] = $user->remember_token = str_random(100);
+            $user->save();
+            $data['id'] = $user->id;
+            
+            //email de confirmación, plantilla guardada en la carpeta mails/register
+            Mail::send('mails.register_confir', ['data' => $data], function($mail) use($data){
+                $mail->subject('Confirmación de cuenta en Vendin');
+                $mail->to($data['email'], $data['name']);
+            });
+            
+            return redirect('/')
+            ->with('messageGood', 'Registro realizado, hemos enviado un e-mail de confirmación a su cuenta de correo');
+        }
+    }
+    
+    //MÉTODO PARA CONFIRMAR REGISTRO DE USUARIO POR EMAIL
+    public function confirmRegister($id, $confirm_token){
+        $user = new User;
+        $the_user = $user->select()->where('id', '=', $id)
+                ->where('remember_token', '=', $confirm_token)->get();
+        //si el usuario se encuentra en nuestra tabla...
+        if (count($the_user) > 0) {
+            $active = 1;
+            //cambiamos token para que solo se verifique una vez q se ha vonfirmado el registro
+            $nuevo_token = str_random(100);
+            //actualizamos token del user 
+            $user->where('id', '=', $id)
+                 ->update(['active' => $active, 'remember_token' => $nuevo_token]);
+            
+            return redirect('/home')
+            ->with('messageGood', 'Enhorabuena ' . $the_user[0]['name'] . ' ya puedes iniciar sesión');
+        } else {
+            return redirect('');
+        }
+        
+    }
+    
+    //MÉTODO PARA LOGIN DE USUARIO
+    public function postLogin(Request $request) {
+        if(Auth::attempt( //si el usuario es válido
+                [
+                'email' => $request->emailLogin,
+                'password' =>$request->passwordLogin,
+                'active' => 1
+                ]
+                , $request->has('remember')
+                )){
+            
+            return redirect('/');//reddireccionamos a página de inicio
+        } else { // si el usuario no es válido...
             $rules = [
-                'name' => 'required|min:3|max:255|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-                'apellidos' => 'required|min:3|max:255|regex:/^[a-záéíóúàèìòùäëïöüñ\s]+$/i',
-                'email' => 'required|email|max:255|unique:users,email',
-                'password' => 'required|min:6|max:60|confirmed',
+                'emailLogin' => 'required|email',
+                'passwordLogin' => 'required|min:6|max:60',
             ];
-            //mensajes
+            
             $messages = [
-                'name.required' => 'Este campo es requerido',
-                'name.min' => 'El mínimo de caracteres permitidos son 3',
-                'name.max' => 'El máximo de caracteres permitidos son 16',
-                'name.regex' => 'Sólo se aceptan letras',
-                'apellidos.required' => 'Este campo es requerido',
-                'apellidos.min' => 'El mínimo de caracteres permitidos son 3',
-                'apellidos.max' => 'El máximo de caracteres permitidos son 16',
-                'apellidos.regex' => 'Sólo se aceptan letras',
-                'email.required' => 'Este campo es requerido',
-                'email.email' => 'El formato de email es incorrecto',
-                'email.max' => 'El máximo de caracteres permitidos son 255',
-                'email.unique' => 'El email ya existe',
-                'password.required' => 'Este campo es requerido',
-                'password.min' => 'El mínimo de caracteres permitidos son 6',
-                'password.max' => 'El máximo de caracteres permitidos son 18',
-                'password.confirmed' => 'El password no coincide',
+                'emailLogin.required' => 'El campo email es requerido',
+                'emailLogin.email' => 'El formato del email es incorrecto',
+                'passwordLogin.required' => 'El campo password es requerido',
+                'passwordLogin.min' => 'El mínimo de caracteres permitidos son 6',
+                'passwordLogin.max' => 'El máximo de caracteres permitidos son 18',
             ];
+            
             //validación
             $validator = Validator::make($request->all(), $rules, $messages);
             
-            if ($validator->fails()) {//si la validación da fallos...
+            
+            if($validator->fails()){
                 return redirect('/')
                 ->withErrors($validator)
                 ->withInput();
-            } else { //si no da ningun error
-                //guardamos registro
-                $user = new User;
-                $data['name'] = $user->name = $request->name;
-                $user->apellidos = $request->apellidos;
-                $data['email'] =$user->email = $request->email;
-                $user->password = bcrypt($request->password);
-                $data['confirm_token'] = $user->remember_token = str_random(100);
-                $user->save();
-                $data['id'] = $user->id;
-                
-                //email de confirmación, plantilla guardada en la carpeta mails/register
-                Mail::send('mails.register_confir', ['data' => $data], function($mail) use($data){
-                    $mail->subject('Confirmación de cuenta en Vendin');
-                    $mail->to($data['email'], $data['name']);
-                });
-                
-                return redirect('/')
-                ->with('messageGood', 'Registro realizado, hemos enviado un e-mail de confirmación a su cuenta de correo');
-            }
-        }
-        
-        //MÉTODO PARA CONFIRMAR REGISTRO DE USUARIO POR EMAIL
-        public function confirmRegister($id, $confirm_token){
-            $user = new User;
-            $the_user = $user->select()->where('id', '=', $id)
-                    ->where('remember_token', '=', $confirm_token)->get();
-            //si el usuario se encuentra en nuestra tabla...
-            if (count($the_user) > 0) {
-                $active = 1;
-                //cambiamos token para que solo se verifique una vez q se ha vonfirmado el registro
-                $nuevo_token = str_random(100);
-                //actualizamos token del user 
-                $user->where('id', '=', $id)
-                     ->update(['active' => $active, 'remember_token' => $nuevo_token]);
-                
-                return redirect('/')
-                ->with('messageGood', 'Enhorabuena ' . $the_user[0]['name'] . ' ya puedes iniciar sesión');
             } else {
-                return redirect('');
+                return redirect('/')
+                ->with('messageError', 'Las credenciales indicadas no son correctas');
             }
+                
             
         }
-        
-        //MÉTODO PARA LOGIN DE USUARIO
-        public function postLogin(Request $request) {
-            if(Auth::attempt( //si el usuario es válido
-                    [
-                    'email' => $request->emailLogin,
-                    'password' =>$request->passwordLogin,
-                    'active' => 1
-                    ]
-                    , $request->has('remember')
-                    )){
-                
-                return redirect('/');//reddireccionamos a página de inicio
-            } else { // si el usuario no es válido...
-                $rules = [
-                    'emailLogin' => 'required|email',
-                    'passwordLogin' => 'required|min:6|max:60',
-                ];
-                
-                $messages = [
-                    'emailLogin.required' => 'El campo email es requerido',
-                    'emailLogin.email' => 'El formato del email es incorrecto',
-                    'passwordLogin.required' => 'El campo password es requerido',
-                    'passwordLogin.min' => 'El mínimo de caracteres permitidos son 6',
-                    'passwordLogin.max' => 'El máximo de caracteres permitidos son 18',
-                ];
-                
-                //validación
-                $validator = Validator::make($request->all(), $rules, $messages);
-                
-                
-                if($validator->fails()){
-                    return redirect('/')
-                    ->withErrors($validator)
-                    ->withInput();
-                } else {
-                    return redirect('/')
-                    ->with('messageError', 'Las credenciales indicadas no son correctas');
-                }
-                    
-                
-            }
-                
-        }
+            
+    }
         
 }
